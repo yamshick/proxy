@@ -24,16 +24,8 @@ app.get('/info', (req, res, next) => {
 });
 
 
-// Proxy endpoints
-app.use('/json_placeholder', createProxyMiddleware({
-   target: API_SERVICE_URL,
-   changeOrigin: true,
-   pathRewrite: {
-       [`^/json_placeholder`]: '',
-   },
-}));
-
 app.get('*', function(req, res) {
+  console.log(req)	
   proxy.web(req, res, { target: `${req.protocol}://${req.hostname}` });
 });
 
