@@ -9,8 +9,6 @@ const app = express();
 
 // Configuration
 const PORT = process.env.PORT || 80;
-const HOST = "/";
-const API_SERVICE_URL = "https://jsonplaceholder.typicode.com";
 
 
 // Logging
@@ -23,10 +21,14 @@ app.get('/info', (req, res, next) => {
    res.send('This is a proxy service which proxies to Billing and Account APIs.');
 });
 
-
 app.get('*', function(req, res) {
-  console.log(req)	
-  proxy.web(req, res, { target: `${req.protocol}://${req.hostname}` });
+  try {
+	  console.log(req.protocol, req.hostname);
+    proxy.web(req, res, { target: `https://youtube.com` });
+  } catch (e) {
+	  res.send(e);
+  }
+
 });
 
 // Start the Proxy
