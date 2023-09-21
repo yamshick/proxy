@@ -9,7 +9,7 @@ const app = express();
 
 // Configuration
 const PORT = process.env.PORT || 80;
-const HOST = "localhost";
+const HOST = "/";
 const API_SERVICE_URL = "https://jsonplaceholder.typicode.com";
 
 
