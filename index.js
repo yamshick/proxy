@@ -1,13 +1,14 @@
 const express = require('express');
 const morgan = require("morgan");
 const { createProxyMiddleware } = require('http-proxy-middleware');
-
+const httpProxy = require('http-proxy');
+const proxy = httpProxy.createProxyServer({});
 
 // Create Express Server
 const app = express();
 
 // Configuration
-const PORT = 3000;
+const PORT = process.env.PORT || 80;
 const HOST = "localhost";
 const API_SERVICE_URL = "https://jsonplaceholder.typicode.com";
 
@@ -31,6 +32,10 @@ app.use('/json_placeholder', createProxyMiddleware({
        [`^/json_placeholder`]: '',
    },
 }));
+
+app.get('*', function(req, res) {
+  proxy.web(req, res, { target: `${req.protocol}://${req.hostname}` });
+});
 
 // Start the Proxy
 app.listen(PORT, HOST, () => {
