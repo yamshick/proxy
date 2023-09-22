@@ -32,7 +32,10 @@ app.get('*', function(req, res) {
   try {
 	  console.log(req.protocol, req.hostname);
 	  const {protocol, hostname} = req;
-	  const targetUrl = `${protocol}${hostname}`;
+
+	  //const targetUrl = `${protocol}${hostname}`;
+	  const targetUrl = 'https://youtube.com'
+
     proxy.web(req, res, { 
 	    changeOrigin: true, 
 	    target: targetUrl
