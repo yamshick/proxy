@@ -35,7 +35,7 @@ app.get('*', function(req, res) {
 
 	  //const targetUrl = `${protocol}${hostname}`;
 	  //const targetUrl = 'https://youtube.com'
-	  const targetUrl = 'https://www.reg.ru/web-tools/myip'
+	  const targetUrl = 'https://www.reg.ru'
 
     proxy.web(req, res, { 
 	    changeOrigin: true, 
