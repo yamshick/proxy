@@ -1,8 +1,15 @@
+const fs = require('fs')
 const express = require('express');
 const morgan = require("morgan");
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const httpProxy = require('http-proxy');
-const proxy = httpProxy.createProxyServer({});
+const proxy = httpProxy.createProxyServer({
+	secure:true,
+  ssl: {
+    key: fs.readFileSync('key.pem', 'utf8'),
+    cert: fs.readFileSync('cert.pem', 'utf8')
+  }
+});
 
 // Create Express Server
 const app = express();
@@ -24,7 +31,12 @@ app.get('/info', (req, res, next) => {
 app.get('*', function(req, res) {
   try {
 	  console.log(req.protocol, req.hostname);
-    proxy.web(req, res, { target: `https://youtube.com` });
+	  const {protocol, hostname} = req;
+	  const targetUrl = `${protocol}${hostname}`;
+    proxy.web(req, res, { 
+	    changeOrigin: true, 
+	    target: targetUrl
+    });
   } catch (e) {
 	  res.send(e);
   }
